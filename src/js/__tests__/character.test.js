@@ -42,17 +42,11 @@ test('setting up new player', () => {
 });
 
 test('should return wrong name error', () => {
-  expect(() => {
-    const wrongName = new Character('b', 'Bowman');
-    return wrongName;
-  }).toThrowError('Имя должно содержать от 2 до 10 букв!');
+  expect(() => new Character('b', 'Bowman')).toThrowError('Имя должно содержать от 2 до 10 букв!');
 });
 
 test('should return wrong type error', () => {
-  expect(() => {
-    const wrongType = new Character('MagicPlayer', 'Magicn');
-    return wrongType;
-  }).toThrow(Error);
+  expect(() => new Character('MPlayer', 'Magicn')).toThrowError('Задан неверный тип персонажа!');
 });
 
 test('should level up player', () => {
@@ -71,6 +65,13 @@ test('should return error message for levelUp', () => {
     bowman.health = 0;
     return bowman.levelUp();
   }).toThrowError('Нельзя повысить левел умершего!');
+});
+
+test('no damage for dead player', () => {
+  const undead = new Undead('Doe');
+  undead.health = 0;
+  undead.damage(20);
+  expect(undead.health).toBe(0);
 });
 
 test('should downgrade health after damage', () => {
